@@ -1,0 +1,18 @@
+version: 2
+
+models:
+  - name: bronze_purchase_data
+    columns:
+      - name: buyer_id
+        tests:
+          - not_null
+          - unique
+      - name: product_id
+        tests:
+          - not_null
+      - name: total_amount
+        tests:
+          - not_null
+          - relationships:
+              to: ref('products')
+              field: id

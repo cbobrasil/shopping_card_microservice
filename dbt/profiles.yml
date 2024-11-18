@@ -1,0 +1,13 @@
+dbt_teachable:
+  target: dev
+  outputs:
+    dev:
+      type: redshift
+      host: redshift-cluster-endpoint
+      port: 5439
+      user: redshift-username
+      password: redshift-password
+      dbname: analytics_db
+      schema: analytics
+      threads: 4
+      sslmode: require

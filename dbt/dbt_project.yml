@@ -1,0 +1,36 @@
+name: dbt_teachable
+version: 1.0
+profile: dbt_teachable
+config-version: 2
+
+# Paths
+model-paths: ["models"]
+seed-paths: ["seeds"]
+snapshot-paths: ["snapshots"]
+analysis-paths: ["analysis"]
+test-paths: ["tests"]
+target-path: "target"
+clean-targets: ["target", "dbt_modules"]
+
+# Models Configuration
+models:
+  dbt_teachable:
+    +schema: analytics
+    +materialized: view  # Default materialization; overridden per model
+    bronze:
+      +materialized: incremental
+      +file_format: parquet  # Redshift COPY-compatible format
+      +sort_keys: ["buyer_id"]  # Optimize query performance
+    silver:
+      +materialized: incremental
+      +sort_keys: ["purchase_date"]  # Optimize time-based queries
+      +dist: buyer_id  # Distribution key for Redshift
+    gold:
+      +materialized: table
+      +sort_keys: ["total_purchases"]  # Aggregated metrics optimization
+
+# Additional Configuration
+on-run-start:
+  - "CREATE SCHEMA IF NOT EXISTS {{ target.schema }};"
+on-run-end:
+  - "ANALYZE VERBOSE {{ target.schema }};"

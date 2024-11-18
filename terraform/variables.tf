@@ -1,0 +1,17 @@
+variable "s3_bucket_name" {}
+variable "kafka_conn_id" {}
+variable "aws_conn_id" {}
+variable "kafka_topic" {}
+variable "bronze_layer_path" {}
+variable "alert_email" {}
+variable "dynamodb_table_name" {}
+variable "redshift_cluster_identifier" {}
+variable "redshift_database_name" {}
+variable "redshift_master_username" {}
+variable "redshift_master_password" {}
+variable "redshift_node_type" {}
+variable "redshift_number_of_nodes" {}
+variable "cloudwatch_metric_namespace" {}
+variable "expected_schema" {}
+variable "schema_validation_lambda_name" {}
+variable "region" {}
