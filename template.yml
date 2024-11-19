@@ -1,0 +1,27 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Shopping Cart Microservice
+
+Resources:
+  ShoppingCartFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: app.lambda_handler
+      Runtime: python3.8
+      CodeUri: .
+      MemorySize: 512
+      Timeout: 10
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - DynamoDBCrudPolicy:
+            TableName: ShoppingCartTable
+      Environment:
+        Variables:
+          DYNAMODB_TABLE_NAME: ShoppingCartTable
+          AWS_REGION: us-east-1
+      Events:
+        ShoppingCartApi:
+          Type: Api
+          Properties:
+            Path: /cart/{proxy+}
+            Method: ANY
